@@ -43,8 +43,8 @@ contract KIP17Kbirdz is KIP17, KIP17Enumerable, KIP17Metadata, MinterRole {
       baseURI = _newBaseURI;
     }
 
-    function setNotRevealedURI(string memory _notRevealedURI) public onlyMinter {
-      notRevealedUri = _notRevealedURI;
+    function setNotRevealedURI(string memory _newNotRevealedURI) public onlyMinter {
+      notRevealedUri = _newNotRevealedURI;
     }
 
     function reveal(bool _state) public onlyMinter {
