@@ -1313,13 +1313,6 @@ library MerkleProof {
 // File: contracts\KIP17Kbirdz.sol
 
 pragma solidity ^0.5.0;
-
-
-
-
-
-
-
 contract KIP17Kbirdz is KIP17, KIP17Enumerable, KIP17Metadata, MinterRole {
 
     // To prevent bot attack, we record the last contract call block number.
@@ -1339,12 +1332,16 @@ contract KIP17Kbirdz is KIP17, KIP17Enumerable, KIP17Metadata, MinterRole {
     uint256 private _mintPrice;                   // 1 KLAY = 1000000000000000000
 
     string baseURI;
-    string public notRevealedUri;
+    string notRevealedUri;
     bool public revealed = false;
     bool public publicMintEnabled = false;
 
     function _baseURI() internal view returns (string memory) {
       return baseURI;
+    }
+
+    function _notRevealedURI() internal view returns (string memory) {
+      return notRevealedUri;
     }
 
     function setBaseURI(string memory _newBaseURI) public onlyMinter {
@@ -1370,7 +1367,10 @@ contract KIP17Kbirdz is KIP17, KIP17Enumerable, KIP17Metadata, MinterRole {
       );
       
       if(revealed == false) {
-          return notRevealedUri;
+        string memory currentNotRevealedUri = _notRevealedURI();
+        return bytes(currentNotRevealedUri).length > 0
+            ? string(abi.encodePacked(currentNotRevealedUri, String.uint2str(tokenId), ".json"))
+            : "";
       }
       string memory currentBaseURI = _baseURI();
       return bytes(currentBaseURI).length > 0
