@@ -124,7 +124,7 @@ contract KIP17Kbirdz is KIP17, KIP17Enumerable, KIP17Metadata, MinterRole {
       require(block.number >= _mintStartBlockNumber, "Not yet started");
       require(requestedCount > 0 && requestedCount <= _mintLimitPerBlock, "Too many requests or zero request");
       require(msg.value == _mintPrice.mul(requestedCount), "Not enough Klay");
-      require(_mintIndexForSale.add(requestedCount) <= _maxSaleAmount, "Exceed max amount");
+      require(_mintIndexForSale.add(requestedCount) <= _maxSaleAmount + 1, "Exceed max amount");
       require(balanceOf(msg.sender) + requestedCount <= _mintLimitPerSale, "Exceed max amount per person");
 
       for(uint256 i = 0; i < requestedCount; i++) {
